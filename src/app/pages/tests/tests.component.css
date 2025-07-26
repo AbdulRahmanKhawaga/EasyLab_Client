@@ -1,0 +1,166 @@
+.tests-content {
+  padding: 20px;
+}
+
+.patient-search-section,
+.test-order-section,
+.order-confirmation {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #4a6fdc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #3a5bb9;
+}
+
+.search-results table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.search-results th,
+.search-results td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.search-results th {
+  background-color: #f5f5f5;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.test-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.test-item {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  transition: all 0.3s;
+}
+
+.test-item:hover {
+  border-color: #4a6fdc;
+}
+
+.test-item.selected {
+  background-color: #e6eeff;
+  border-color: #4a6fdc;
+}
+
+.order-summary {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.order-summary ul {
+  list-style: none;
+  padding: 0;
+}
+
+.order-summary li {
+  padding: 5px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.total {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-top: 10px;
+  text-align: right;
+}
+/* --- Main Content Styles --- */
+/* This is the container for the navbar and page content */
+.main-content {
+  flex-grow: 1; /* Allows the main content to take up the remaining space */
+  display: flex;
+  flex-direction: column;
+  /* The width will be calculated automatically by flexbox */
+  overflow-x: hidden; /* Prevents horizontal scrollbars during transitions */
+  padding-left: 20px;
+}
+/* Add this to your main styles.css file */
+
+/* This is the main container for the sidebar and content */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+
+}
+
+/* --- Sidebar Styles --- */
+/* You likely have these in sidebar.component.css, but ensure they exist. */
+/* This is the component holding the sidebar. */
+app-sidebar {
+  /* Define the width of the sidebar when it's open */
+  width: 260px;
+  flex-shrink: 0; /* Prevents the sidebar from shrinking */
+  transition: width 0.3s ease;
+}
+
+/* Style for when the sidebar is closed */
+app-sidebar.closed {
+  /* Define the width when closed (can be 0 or a smaller value for icons) */
+  width: 80px;
+}
+

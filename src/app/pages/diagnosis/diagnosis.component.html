@@ -1,0 +1,102 @@
+<div class="dashboard-container">
+  <app-sidebar [isOpen]="isSidebarOpen"></app-sidebar>
+
+  <main class="main-content">
+    <app-navbar (toggleSidebar)="toggleSidebar()"></app-navbar>
+
+    <div class="page-content">
+      <div class="page-header">
+        <h1>CBC Diagnosis</h1>
+      </div>
+
+      <div class="diagnosis-container">
+        <div class="card form-card">
+          <div class="card-header">
+            <h3>Enter CBC Data</h3>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="submit()">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="hgb">HGB (g/dL)</label>
+                  <input id="hgb" [(ngModel)]="inputData.hgb" name="hgb" type="number" required class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="mcv">MCV (fL)</label>
+                  <input id="mcv" [(ngModel)]="inputData.mcv" name="mcv" type="number" required class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="mchc">MCHC (g/dL)</label>
+                  <input id="mchc" [(ngModel)]="inputData.mchc" name="mchc" type="number" required class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="wbc">WBC (x10^9/L)</label>
+                  <input id="wbc" [(ngModel)]="inputData.wbc" name="wbc" type="number" required class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="rbc">RBC (x10^12/L)</label>
+                  <input id="rbc" [(ngModel)]="inputData.rbc" name="rbc" type="number" required class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="platelets">Platelets (x10^9/L)</label>
+                  <input id="platelets" [(ngModel)]="inputData.platelets" name="platelets" type="number" required class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="hct">HCT (%)</label>
+                  <input id="hct" [(ngModel)]="inputData.hct" name="hct" type="number" required class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="mch">MCH (pg)</label>
+                  <input id="mch" [(ngModel)]="inputData.mch" name="mch" type="number" required class="form-control">
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary" [disabled]="loading">
+                  <span *ngIf="!loading">Diagnose</span>
+                  <span *ngIf="loading"><i class="fas fa-spinner fa-spin"></i> Diagnosing...</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card result-card">
+          <div class="card-header">
+            <h3>Diagnosis Result</h3>
+          </div>
+          <div class="card-body">
+            <div *ngIf="loading" class="info-message">
+              <i class="fas fa-spinner fa-spin"></i>
+              <p>Analyzing data...</p>
+            </div>
+
+            <div *ngIf="error" class="error-message">
+              <i class="fas fa-exclamation-triangle"></i>
+              <p>{{ error }}</p>
+            </div>
+
+            <div *ngIf="!result && !loading && !error" class="info-message">
+              <i class="fas fa-file-medical-alt"></i>
+              <p>Results will be displayed here after submission.</p>
+            </div>
+
+            <div *ngIf="result && !loading" class="result-content">
+              <div class="result-item">
+                <label>Diagnosis:</label>
+                <span class="diagnosis-value">{{ result.diagnosis }}</span>
+              </div>
+              <div class="result-item">
+                <label>Confidence:</label>
+                <div class="confidence-bar">
+                  <div class="confidence-fill" [style.width.%]="result.confidence * 100">
+                    {{ result.confidence * 100 | number:'1.0-2' }}%
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

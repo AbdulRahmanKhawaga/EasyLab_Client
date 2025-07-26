@@ -1,0 +1,304 @@
+.sidebar {
+  width: 280px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  transition: all var(--transition-normal);
+  overflow-y: auto;
+  border-right: 1px solid rgba(229, 231, 235, 0.8);
+}
+
+.sidebar.closed {
+  width: 70px;
+}
+
+@media (min-width: 1024px) {
+  .sidebar.closed:hover {
+    width: 280px;
+  }
+
+  .sidebar.closed:hover .hidden {
+    opacity: 1 !important;
+    width: auto !important;
+    visibility: visible !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .sidebar {
+    transform: translateX(0);
+  }
+
+  .sidebar.closed {
+    transform: translateX(-100%);
+    width: 280px;
+  }
+}
+
+.logo span.hidden,
+.nav-link span.hidden {
+  opacity: 0;
+  width: 0;
+  visibility: hidden;
+  transition: all var(--transition-fast);
+}
+
+.sidebar-header {
+  padding: var(--spacing-xl);
+  border-bottom: 1px solid var(--secondary-200);
+  background: linear-gradient(135deg, var(--primary-50) 0%, white 100%);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.logo i {
+  font-size: 1.75rem;
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  min-width: 28px;
+}
+
+.logo span {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #1e293b, #475569);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
+.sidebar-nav {
+  padding: var(--spacing-xl) 0;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Update existing styles */
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: 1rem var(--spacing-xl);
+  color: var(--secondary-600);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-right: 3px solid transparent;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Improve the active state styling */
+.nav-link.active {
+  color: #3b82f6;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));
+  border-right-color: #3b82f6;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+  transform: translateX(4px);
+}
+
+/* Add a subtle animation for the active indicator */
+.active-indicator {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 0;
+  background: #3b82f6;
+  border-radius: 2px;
+  animation: growHeight 0.3s ease forwards;
+}
+
+@keyframes growHeight {
+  from { height: 0; }
+  to { height: 60%; }
+}
+
+/* Add a staggered animation effect for menu items */
+.nav-item {
+  margin-bottom: var(--spacing-xs);
+  opacity: 0;
+  transform: translateX(-10px);
+  animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Apply staggered delay based on index */
+.nav-item:nth-child(1) { animation-delay: 0.1s; }
+.nav-item:nth-child(2) { animation-delay: 0.15s; }
+.nav-item:nth-child(3) { animation-delay: 0.2s; }
+.nav-item:nth-child(4) { animation-delay: 0.25s; }
+.nav-item:nth-child(5) { animation-delay: 0.3s; }
+.nav-item:nth-child(6) { animation-delay: 0.35s; }
+
+/* Enhance hover effect */
+.nav-link:hover {
+  color: var(--primary-600);
+  transform: translateX(4px);
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* Enhance icon animation */
+.nav-link i {
+  font-size: 1.125rem;
+  min-width: 20px;
+  transition: all 0.3s ease;
+}
+
+.nav-link.active i {
+  transform: scale(1.2);
+  color: #3b82f6;
+}
+
+/* Add a subtle pulse animation for active icons */
+.nav-link.active i {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1.1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1.1); }
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: linear-gradient(135deg, var(--primary-100), var(--primary-50));
+  transition: width var(--transition-normal);
+  z-index: -1;
+}
+
+.nav-link:hover::before {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: var(--primary-600);
+  transform: translateX(4px);
+}
+
+.nav-link.active {
+  color: #3b82f6;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));
+  border-right-color: #3b82f6;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+}
+
+.nav-link.active::before {
+  width: 100%;
+}
+
+.nav-link i {
+  font-size: 1.125rem;
+  min-width: 20px;
+  transition: all var(--transition-normal);
+}
+
+.nav-link.active i {
+  transform: scale(1.1);
+}
+
+.nav-link span {
+  font-weight: 500;
+  transition: all var(--transition-normal);
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-xl);
+  border-top: 1px solid var(--secondary-200);
+  background: linear-gradient(135deg, var(--secondary-50) 0%, white 100%);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  background: white;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--secondary-200);
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.user-details h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--secondary-800);
+  margin: 0;
+}
+
+.user-details p {
+  font-size: 0.75rem;
+  color: var(--secondary-500);
+  margin: 0;
+}
+
+/* Scrollbar Styling */
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: var(--secondary-100);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--secondary-300);
+  border-radius: 2px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-400);
+}

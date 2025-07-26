@@ -1,0 +1,12 @@
+<div class="dashboard-container" [class.sidebar-closed]="!isSidebarOpen">
+  <app-sidebar [isOpen]="isSidebarOpen"></app-sidebar>
+
+  <main class="main-content">
+    <app-navbar (toggleSidebar)="toggleSidebar()"></app-navbar>
+
+    <div class="dashboard-content">
+      <app-stats-grid></app-stats-grid>
+      <app-charts-grid></app-charts-grid>
+    </div>
+  </main>
+</div>

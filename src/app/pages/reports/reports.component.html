@@ -1,0 +1,177 @@
+<div class="dashboard-container">
+  <app-sidebar [isOpen]="true"></app-sidebar>
+
+  <main class="main-content">
+    <app-navbar (toggleSidebar)="toggleSidebar()"></app-navbar>
+
+    <div class="reports-content">
+      <h1>Test Reports</h1>
+
+      <!-- Filters Section -->
+      <div class="filters-section" *ngIf="!selectedRecord">
+        <div class="filter-controls">
+          <div class="filter-group">
+            <label>Invoice Number</label>
+            <input type="text" [(ngModel)]="searchTerm" placeholder="Search by invoice number" (input)="applyFilters()">
+          </div>
+          <div class="filter-group">
+            <label>Patient</label>
+            <select [(ngModel)]="patientFilter" (change)="applyFilters()">
+              <option [ngValue]="null">All Patients</option>
+              <option *ngFor="let patient of patients" [ngValue]="patient.id">
+                {{ patient.first_name }} {{ patient.last_name }}
+              </option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Date</label>
+            <input type="date" [(ngModel)]="dateFilter" (change)="applyFilters()">
+          </div>
+          <button class="reset-btn" (click)="resetFilters()">Reset Filters</button>
+        </div>
+      </div>
+
+      <!-- Reports List -->
+      <div class="reports-list" *ngIf="!selectedRecord">
+        <div class="no-reports" *ngIf="filteredRecords.length === 0">
+          <p>No test reports found matching your criteria.</p>
+        </div>
+
+        <table *ngIf="filteredRecords.length > 0">
+          <thead>
+            <tr>
+              <th>Invoice #</th>
+              <th>Patient</th>
+              <th>Test Type</th>
+              <th>Completed Date</th>
+              <th>Diagnosis</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of filteredRecords">
+              <td>{{ record.invoiceNumber }}</td>
+              <td>{{ getPatientName(record.patientId) }}</td>
+              <td>
+                <span *ngFor="let test of record.tests; let last = last">
+                  {{ test.name }}{{ !last ? ', ' : '' }}
+                </span>
+              </td>
+              <td>{{ record.results?.completedAt | date:'medium' }}</td>
+              <td>{{ record.results?.diagnosis }}</td>
+              <td>
+                <button class="view-btn" (click)="viewReport(record)">View Report</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Report Detail View -->
+      <div class="report-detail" *ngIf="selectedRecord && patientInfo">
+        <div class="report-actions">
+          <button class="print-btn" (click)="printReport()">Print Report</button>
+          <button class="close-btn" (click)="closeReport()">Back to List</button>
+        </div>
+
+        <div class="report-document">
+          <div class="report-header">
+            <div class="lab-info">
+              <h2>easyLab</h2>
+              <p>123 Medical Center Drive</p>
+              <p>Phone: (555) 123-4567</p>
+            </div>
+            <div class="report-title">
+              <h3>Laboratory Test Report</h3>
+              <p class="report-id">Report #: {{ selectedRecord.invoiceNumber }}</p>
+              <p class="report-date">Date: {{ selectedRecord.results?.completedAt | date:'mediumDate' }}</p>
+            </div>
+          </div>
+
+          <div class="patient-section">
+            <h4>Patient Information</h4>
+            <div class="patient-details">
+              <p><strong>Name:</strong> {{ patientInfo.first_name }} {{ patientInfo.last_name }}</p>
+              <p><strong>ID:</strong> {{ patientInfo.national_id }}</p>
+              <p><strong>Gender:</strong> {{ patientInfo.gender }}</p>
+              <p><strong>Date of Birth:</strong> {{ patientInfo.date_of_birth | date }}</p>
+            </div>
+          </div>
+
+          <div class="test-section">
+            <h4>Test Results</h4>
+            <div class="test-details">
+              <h5>Complete Blood Count (CBC)</h5>
+
+              <table class="results-table">
+                <thead>
+                  <tr>
+                    <th>Test</th>
+                    <th>Result</th>
+                    <th>Reference Range</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Hemoglobin (HGB)</td>
+                    <td>{{ selectedRecord.results?.cbcData?.hgb }} g/dL</td>
+                    <td>13.5 - 17.5 g/dL</td>
+                  </tr>
+                  <tr>
+                    <td>Mean Corpuscular Volume (MCV)</td>
+                    <td>{{ selectedRecord.results?.cbcData?.mcv }} fL</td>
+                    <td>80 - 100 fL</td>
+                  </tr>
+                  <tr>
+                    <td>MCHC</td>
+                    <td>{{ selectedRecord.results?.cbcData?.mchc }} g/dL</td>
+                    <td>32 - 36 g/dL</td>
+                  </tr>
+                  <tr>
+                    <td>White Blood Cells (WBC)</td>
+                    <td>{{ selectedRecord.results?.cbcData?.wbc }} K/uL</td>
+                    <td>4.5 - 11.0 K/uL</td>
+                  </tr>
+                  <tr>
+                    <td>Red Blood Cells (RBC)</td>
+                    <td>{{ selectedRecord.results?.cbcData?.rbc }} M/uL</td>
+                    <td>4.5 - 5.9 M/uL</td>
+                  </tr>
+                  <tr>
+                    <td>Platelets</td>
+                    <td>{{ selectedRecord.results?.cbcData?.platelets }} K/uL</td>
+                    <td>150 - 450 K/uL</td>
+                  </tr>
+                  <tr>
+                    <td>Hematocrit (HCT)</td>
+                    <td>{{ selectedRecord.results?.cbcData?.hct }} %</td>
+                    <td>38.3 - 48.6 %</td>
+                  </tr>
+                  <tr>
+                    <td>MCH</td>
+                    <td>{{ selectedRecord.results?.cbcData?.mch }} pg</td>
+                    <td>27 - 33 pg</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="diagnosis-section">
+            <h4>AI Diagnosis</h4>
+            <div class="diagnosis-details">
+              <p class="diagnosis">{{ selectedRecord.results?.diagnosis }}</p>
+              <p class="confidence">Confidence: {{ selectedRecord.results?.diagnosisConfidence }}%</p>
+            </div>
+          </div>
+
+          <div class="report-footer">
+            <p>This report was generated by easyLab AI-assisted diagnostic system.</p>
+            <p>Completed by: {{ selectedRecord.results?.completedBy }}</p>
+            <p class="disclaimer">This report is for informational purposes only and should be reviewed by a healthcare professional.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

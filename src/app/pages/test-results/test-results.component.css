@@ -1,0 +1,313 @@
+.test-results-content {
+  padding: 20px;
+}
+
+.test-results-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+}
+
+.pending-tests-section,
+.results-entry-section {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.tests-list {
+  margin-top: 15px;
+}
+
+.test-item {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.test-item:hover {
+  border-color: #4a6fdc;
+}
+
+.test-item.selected {
+  background-color: #e6eeff;
+  border-color: #4a6fdc;
+}
+
+.test-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.invoice {
+  font-weight: bold;
+}
+
+.date {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.test-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.status {
+  text-transform: capitalize;
+  font-size: 0.9em;
+  color: #ff9800;
+}
+
+.patient-info {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.ai-prediction {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.prediction-result {
+  margin-top: 15px;
+}
+
+.diagnosis {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #4a6fdc;
+}
+
+.confidence {
+  color: #666;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  background-color: #4a6fdc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #3a5bb9;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+}
+
+.cancel-btn:hover {
+  background-color: #d32f2f;
+}
+
+.error {
+  color: #f44336;
+  margin-top: 10px;
+}
+/* --- Main Content Styles --- */
+/* This is the container for the navbar and page content */
+.main-content {
+  flex-grow: 1; /* Allows the main content to take up the remaining space */
+  display: flex;
+  flex-direction: column;
+  /* The width will be calculated automatically by flexbox */
+  overflow-x: hidden; /* Prevents horizontal scrollbars during transitions */
+  padding-left: 20px;
+}
+/* Add this to your main styles.css file */
+
+/* This is the main container for the sidebar and content */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+
+}
+
+/* --- Sidebar Styles --- */
+/* You likely have these in sidebar.component.css, but ensure they exist. */
+/* This is the component holding the sidebar. */
+app-sidebar {
+  /* Define the width of the sidebar when it's open */
+  width: 260px;
+  flex-shrink: 0; /* Prevents the sidebar from shrinking */
+  transition: width 0.3s ease;
+}
+
+/* Style for when the sidebar is closed */
+app-sidebar.closed {
+  /* Define the width when closed (can be 0 or a smaller value for icons) */
+  width: 80px;
+}
+
+/* Add these new styles for the result card */
+
+/* Card styling */
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Result card specific styles */
+.info-message,
+.error-message {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+}
+
+.info-message i,
+.error-message i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.error-message {
+  color: #dc3545;
+}
+
+.result-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.result-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.result-item label {
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.diagnosis-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #007bff;
+}
+
+.confidence-bar {
+  width: 100%;
+  background-color: #e9ecef;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 30px;
+}
+
+.confidence-fill {
+  background-color: #28a745;
+  color: white;
+  padding: 0.5rem;
+  text-align: center;
+  white-space: nowrap;
+  height: 100%;
+  width: 0; /* Start at 0 width */
+  animation: growWidth 1s ease-in-out forwards;
+}
+
+/* Animation for the confidence bar */
+@keyframes growWidth {
+  from { width: 0; }
+  to { width: 100%; } /* Will be overridden by inline style */
+}
+
+/* Animation for the card entrance */
+.animate-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.animate-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Spinner animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.fa-spinner {
+  animation: spin 2s linear infinite;
+}
+
+/* Pulse animation for the diagnosis value */
+.diagnosis-value {
+  animation: pulse 2s ease-in-out 1;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+

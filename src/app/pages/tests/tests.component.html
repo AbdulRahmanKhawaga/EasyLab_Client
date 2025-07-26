@@ -1,0 +1,138 @@
+<div class="dashboard-container">
+  <app-sidebar [isOpen]="true"></app-sidebar>
+
+  <main class="main-content">
+    <app-navbar (toggleSidebar)="toggleSidebar()"></app-navbar>
+
+    <div class="tests-content">
+      <h1>Test Orders - Receptionist</h1>
+
+      <div class="patient-search-section">
+        <h2>Patient Search</h2>
+        <div class="search-box">
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            placeholder="Enter National ID or Patient Name"
+            (keyup.enter)="searchPatients()"
+          >
+          <button (click)="searchPatients()">Search</button>
+          <button (click)="showAddNewPatient()">Add New Patient</button>
+        </div>
+
+        <!-- Search Results -->
+        <div class="search-results" *ngIf="searchResults.length > 0">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>National ID</th>
+                <th>Gender</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let patient of searchResults">
+                <td>{{ patient.first_name }} {{ patient.last_name }}</td>
+                <td>{{ patient.national_id }}</td>
+                <td>{{ patient.gender }}</td>
+                <td>
+                  <button (click)="selectPatient(patient)">Select</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- New Patient Form -->
+        <div class="new-patient-form" *ngIf="showNewPatientForm">
+          <h3>Add New Patient</h3>
+          <div class="form-group">
+            <label>First Name*</label>
+            <input type="text" [(ngModel)]="newPatient.first_name" required>
+          </div>
+          <div class="form-group">
+            <label>Last Name*</label>
+            <input type="text" [(ngModel)]="newPatient.last_name" required>
+          </div>
+          <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" [(ngModel)]="newPatient.date_of_birth">
+          </div>
+          <div class="form-group">
+            <label>Gender</label>
+            <select [(ngModel)]="newPatient.gender">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>National ID*</label>
+            <input type="text" [(ngModel)]="newPatient.national_id" required>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" [(ngModel)]="newPatient.phone">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" [(ngModel)]="newPatient.email">
+          </div>
+          <div class="form-group">
+            <label>Address</label>
+            <textarea [(ngModel)]="newPatient.address"></textarea>
+          </div>
+          <div class="form-actions">
+            <button (click)="addNewPatient()">Save Patient</button>
+            <button (click)="showNewPatientForm = false">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selected Patient and Test Selection -->
+      <div class="test-order-section" *ngIf="selectedPatient">
+        <h2>Create Test Order</h2>
+        <div class="selected-patient">
+          <h3>Selected Patient</h3>
+          <p><strong>Name:</strong> {{ selectedPatient.first_name }} {{ selectedPatient.last_name }}</p>
+          <p><strong>ID:</strong> {{ selectedPatient.national_id }}</p>
+        </div>
+
+        <div class="test-selection">
+          <h3>Select Tests</h3>
+          <div class="test-list">
+            <div
+              *ngFor="let test of availableTests"
+              class="test-item"
+              [class.selected]="isTestSelected(test)"
+              (click)="toggleTestSelection(test)"
+            >
+              <span class="test-name">{{ test.name }}</span>
+              <span class="test-price">${{ test.price }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-summary" *ngIf="selectedTests.length > 0">
+          <h3>Order Summary</h3>
+          <ul>
+            <li *ngFor="let test of selectedTests">
+              {{ test.name }} - ${{ test.price }}
+            </li>
+          </ul>
+          <p class="total"><strong>Total:</strong> ${{ getTotalPrice() }}</p>
+
+          <button (click)="createTestOrder()">Create Order & Generate Invoice</button>
+        </div>
+      </div>
+
+      <!-- Order Confirmation -->
+      <div class="order-confirmation" *ngIf="currentOrder">
+        <h2>Order Created Successfully</h2>
+        <p><strong>Invoice Number:</strong> {{ currentOrder.invoiceNumber }}</p>
+        <p><strong>Status:</strong> {{ currentOrder.status }}</p>
+        <button (click)="currentOrder = null">Create Another Order</button>
+      </div>
+    </div>
+  </main>
+</div>

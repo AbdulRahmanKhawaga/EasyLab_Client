@@ -1,0 +1,23 @@
+<div class="stats-grid">
+  <div class="stat-card" [ngClass]="stat.color" *ngFor="let stat of stats">
+    <div class="stat-icon">
+      <i [class]="stat.icon"></i>
+    </div>
+    <div class="stat-info">
+      <h3>{{ stat.value }}</h3>
+      <p>{{ stat.title }}</p>
+      <span class="stat-change">{{ stat.change }}</span>
+    </div>
+    <div class="stat-chart">
+      <svg viewBox="0 0 100 30">
+        <polyline
+          points="0,20 20,15 40,18 60,12 80,8 100,5"
+          stroke="white"
+          stroke-width="2"
+          fill="none"
+          opacity="0.7"
+        />
+      </svg>
+    </div>
+  </div>
+</div>

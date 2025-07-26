@@ -1,0 +1,248 @@
+<div class="dashboard-container" [class.sidebar-closed]="!isSidebarOpen">
+  <app-sidebar [isOpen]="isSidebarOpen"></app-sidebar>
+
+  <main class="main-content">
+    <app-navbar (toggleSidebar)="toggleSidebar()"></app-navbar>
+
+    <div class="dashboard-content">
+      <div class="page-header">
+        <h1>Settings</h1>
+        <div class="header-actions">
+          <button class="btn btn-secondary" (click)="exportSettings()">
+            <i class="fas fa-download"></i> Export
+          </button>
+          <label class="btn btn-secondary">
+            <i class="fas fa-upload"></i> Import
+            <input type="file" accept=".json" (change)="importSettings($event)" style="display: none;">
+          </label>
+          <button class="btn btn-primary" (click)="saveSettings()" [disabled]="isSaving">
+            <i class="fas fa-save"></i> {{ isSaving ? 'Saving...' : 'Save Changes' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Settings Tabs -->
+      <div class="settings-tabs">
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'general'"
+          (click)="setActiveTab('general')"
+        >
+          <i class="fas fa-cog"></i> General
+        </button>
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'appearance'"
+          (click)="setActiveTab('appearance')"
+        >
+          <i class="fas fa-palette"></i> Appearance
+        </button>
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'notifications'"
+          (click)="setActiveTab('notifications')"
+        >
+          <i class="fas fa-bell"></i> Notifications
+        </button>
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'security'"
+          (click)="setActiveTab('security')"
+        >
+          <i class="fas fa-shield-alt"></i> Security
+        </button>
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'backup'"
+          (click)="setActiveTab('backup')"
+        >
+          <i class="fas fa-database"></i> Backup
+        </button>
+      </div>
+
+      <!-- Settings Content -->
+      <div class="settings-content">
+
+    <!-- General Settings -->
+    <div class="tab-content" *ngIf="activeTab === 'general'">
+      <h3>General Settings</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Laboratory Name *</label>
+          <input type="text" [(ngModel)]="settings.general.labName" required>
+        </div>
+        <div class="form-group">
+          <label>Laboratory Address</label>
+          <textarea [(ngModel)]="settings.general.labAddress" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" [(ngModel)]="settings.general.labPhone">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" [(ngModel)]="settings.general.labEmail">
+        </div>
+        <div class="form-group">
+          <label>Timezone</label>
+          <select [(ngModel)]="settings.general.timezone">
+            <option *ngFor="let tz of timezones" [value]="tz.value">{{ tz.label }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Date Format</label>
+          <select [(ngModel)]="settings.general.dateFormat">
+            <option *ngFor="let format of dateFormats" [value]="format.value">{{ format.label }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Appearance Settings -->
+    <div class="tab-content" *ngIf="activeTab === 'appearance'">
+      <h3>Appearance Settings</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Theme</label>
+          <select [(ngModel)]="settings.appearance.theme">
+            <option *ngFor="let theme of themes" [value]="theme.value">{{ theme.label }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Primary Color</label>
+          <input type="color" [(ngModel)]="settings.appearance.primaryColor">
+        </div>
+        <div class="form-group">
+          <label>Font Size</label>
+          <select [(ngModel)]="settings.appearance.fontSize">
+            <option *ngFor="let size of fontSizes" [value]="size.value">{{ size.label }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Settings -->
+    <div class="tab-content" *ngIf="activeTab === 'notifications'">
+      <h3>Notification Settings</h3>
+      <div class="form-grid">
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.notifications.emailNotifications">
+            <span class="checkmark"></span>
+            Email Notifications
+          </label>
+          <small>Receive notifications via email</small>
+        </div>
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.notifications.smsNotifications">
+            <span class="checkmark"></span>
+            SMS Notifications
+          </label>
+          <small>Receive notifications via SMS</small>
+        </div>
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.notifications.criticalAlerts">
+            <span class="checkmark"></span>
+            Critical Alerts
+          </label>
+          <small>Immediate alerts for critical test results</small>
+        </div>
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.notifications.reportReady">
+            <span class="checkmark"></span>
+            Report Ready Notifications
+          </label>
+          <small>Notify when test reports are ready</small>
+        </div>
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.notifications.systemMaintenance">
+            <span class="checkmark"></span>
+            System Maintenance Alerts
+          </label>
+          <small>Notify about scheduled maintenance</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Settings -->
+    <div class="tab-content" *ngIf="activeTab === 'security'">
+      <h3>Security Settings</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Session Timeout (minutes)</label>
+          <input type="number" [(ngModel)]="settings.security.sessionTimeout" min="5" max="480">
+          <small>Automatically log out users after inactivity</small>
+        </div>
+        <div class="form-group">
+          <label>Password Expiry (days)</label>
+          <input type="number" [(ngModel)]="settings.security.passwordExpiry" min="30" max="365">
+          <small>Force password change after specified days</small>
+        </div>
+        <div class="form-group">
+          <label>Maximum Login Attempts</label>
+          <input type="number" [(ngModel)]="settings.security.loginAttempts" min="3" max="10">
+          <small>Lock account after failed attempts</small>
+        </div>
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.security.twoFactorAuth">
+            <span class="checkmark"></span>
+            Two-Factor Authentication
+          </label>
+          <small>Require additional verification for login</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Backup Settings -->
+    <div class="tab-content" *ngIf="activeTab === 'backup'">
+      <h3>Backup Settings</h3>
+      <div class="form-grid">
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="settings.backup.autoBackup">
+            <span class="checkmark"></span>
+            Automatic Backup
+          </label>
+          <small>Enable automatic data backup</small>
+        </div>
+        <div class="form-group">
+          <label>Backup Frequency</label>
+          <select [(ngModel)]="settings.backup.backupFrequency" [disabled]="!settings.backup.autoBackup">
+            <option *ngFor="let freq of backupFrequencies" [value]="freq.value">{{ freq.label }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Retention Period (days)</label>
+          <input type="number" [(ngModel)]="settings.backup.retentionPeriod" min="7" max="365">
+          <small>How long to keep backup files</small>
+        </div>
+        <div class="form-group">
+          <label>Last Backup</label>
+          <div class="backup-info">
+            <span *ngIf="settings.backup.lastBackup">{{ settings.backup.lastBackup | date:'medium' }}</span>
+            <span *ngIf="!settings.backup.lastBackup" class="no-backup">No backup performed yet</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-secondary" (click)="runBackupNow()">
+            <i class="fas fa-play"></i> Run Backup Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reset Button -->
+  <div class="settings-footer">
+    <button class="btn btn-outline-danger" (click)="resetToDefaults()">
+      <i class="fas fa-undo"></i> Reset to Defaults
+    </button>
+  </div>
+</div>
+
+

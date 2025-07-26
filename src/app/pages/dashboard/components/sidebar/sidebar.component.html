@@ -1,0 +1,29 @@
+<aside class="sidebar" [class.closed]="!isOpen">
+  <div class="sidebar-header">
+    <div class="logo">
+      <i class="fas fa-flask"></i>
+      <span [class.hidden]="!isOpen">easyLab</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul>
+      <li
+        class="nav-item"
+        *ngFor="let item of menuItems; let i = index"
+        [attr.data-index]="i"
+      >
+        <a
+          (click)="navigateTo(item.route)"
+          class="nav-link"
+          [class.active]="item.active"
+          style="cursor: pointer;"
+        >
+          <i [class]="item.icon"></i>
+          <span [class.hidden]="!isOpen">{{ item.label }}</span>
+          <span *ngIf="item.active" class="active-indicator"></span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</aside>

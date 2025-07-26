@@ -1,0 +1,28 @@
+<header class="navbar">
+  <div class="navbar-left">
+    <h1>Hi, welcome back</h1>
+  </div>
+
+  <div class="navbar-right">
+    <div class="navbar-actions">
+      <button class="action-btn">
+        <i class="fas fa-bell"></i>
+      </button>
+      <div class="user-profile" (click)="toggleUserDropdown()">
+        <i class="fas fa-user-circle"></i>
+        <span>abdo</span>
+        <i class="fas fa-chevron-down"></i>
+        <div class="user-dropdown" *ngIf="showUserDropdown">
+          <a (click)="goToMyAccount()">
+            <i class="fas fa-user"></i>
+            My Account
+          </a>
+          <a (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
