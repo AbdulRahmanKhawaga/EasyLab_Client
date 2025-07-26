@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface CBCInput {
   hgb: number;
@@ -23,7 +24,7 @@ export interface DiagnosisResult {
   providedIn: 'root'
 })
 export class DiagnosisService {
-  private apiUrl = 'http://127.0.0.1:8000/api/diagnose';
+  private apiUrl = `${environment.mlApiUrl}/api/diagnose`;
 
   constructor(private http: HttpClient) { }
 
